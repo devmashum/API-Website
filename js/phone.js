@@ -11,6 +11,18 @@ const displayPhones = phones => {
     // clear phone container before adding new cards
 
     phoneContainer.textContent = ' ';
+    // display show all button if there are more then 12 phones(ei section ta slice er uporer ongsei hote hobe slice korar age)
+
+    const showAllContainer = document.getElementById('show-all-container');
+
+    if (phones.length > 12) {
+        showAllContainer.classList.remove('hidden');
+    } else {
+        showAllContainer.classList.add('hidden');
+    }
+
+    // Display first 12 Phones
+    phones = phones.slice(0, 12);
 
     phones.forEach(phone => {
         console.log(phone);
@@ -28,15 +40,24 @@ const displayPhones = phones => {
         `;
         phoneContainer.appendChild(phoneCard);
     })
-
+    toggleLoadingSpinner(false);
 }
 
 // handle search button
 const handleSearch = () => {
+    toggleLoadingSpinner(true);
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
-    console.log(searchText);
+    // console.log(searchText);
     loadPhone(searchText);
 }
-
+const toggleLoadingSpinner = (isLoading) => {
+    const loadingSpinner = document.getElementById('loading-spinner');
+    if (isLoading) {
+        loadingSpinner.classList.remove('hidden');
+    }
+    else {
+        loadingSpinner.classList.add('hidden')
+    }
+}
 // loadPhone();
