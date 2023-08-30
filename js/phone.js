@@ -28,7 +28,7 @@ const displayPhones = (phones, isShowAll) => {
     phones = phones.slice(0, 12);
 
     phones.forEach(phone => {
-        console.log(phone);
+
         // create a div
         const phoneCard = document.createElement('div');
         phoneCard.classList = `card p-5 bg-gray-100 shadow-xl `;
@@ -37,7 +37,7 @@ const displayPhones = (phones, isShowAll) => {
             <h2 class="card-title">${phone.phone_name}</h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div class="card-actions justify-center text-white">
-                <button class="btn btn-primary ">Show Details</button>
+                <button onclick="handleShowDetails('${phone.slug}')" class="btn btn-primary ">Show Details</button>
             </div>
         </div>
         `;
@@ -45,7 +45,25 @@ const displayPhones = (phones, isShowAll) => {
     })
     toggleLoadingSpinner(false);
 }
+// 
+const handleShowDetails = async (id) => {
+    // load single phone data
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json();
+    const phone = data.data;
+    showPhoneDetails(phone);
+}
+// Modal
+const showPhoneDetails = (phone) => {
+    console.log(phone)
+    const phoneName = document.getElementById('show-detail-phone-name');
 
+    phoneName.innerText = phone.name;
+
+    // show the modal
+
+    show_details_modal.showModal();
+}
 // handle search button
 const handleSearch = (isShowAll) => {
     toggleLoadingSpinner(true);
@@ -69,4 +87,5 @@ const toggleLoadingSpinner = (isLoading) => {
 const handleShowALL = () => {
     handleSearch(true);
 }
+
 // loadPhone();
